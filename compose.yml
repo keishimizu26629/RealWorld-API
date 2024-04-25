@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:5.7
+    platform: linux/x86_64
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE  # データベース名を環境変数から設定
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./api/tmp/db:/var/lib/mysql"
+
+  api:
+    build:
+      context: ./api
+      args:
+        WORKDIR: $WORKDIR
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: $MYSQL_DATABASE
+      RAILS_ENV: development  # Railsの環境変数を設定
+    volumes:
+      - "./api:/$WORKDIR"
+    depends_on:
+      - db
+    ports:
+      - "$API_PORT:3000"

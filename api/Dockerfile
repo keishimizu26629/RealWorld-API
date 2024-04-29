@@ -12,6 +12,9 @@ ENV RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
     BUNDLE_WITHOUT="development"
 
+# Create bundle directory and set permissions
+RUN mkdir -p /usr/local/bundle && chown -R rails:rails /usr/local/bundle
+
 # Throw-away build stage to reduce size of final image
 FROM base as build
 
@@ -43,7 +46,7 @@ COPY --from=build /app /app
 
 # Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails db log storage tmp
+    chown -R rails:rails /usr/local/bundle /app
 USER rails:rails
 
 # Entrypoint prepares the database.

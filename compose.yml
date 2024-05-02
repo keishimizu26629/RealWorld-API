@@ -20,6 +20,7 @@ services:
       MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
       MYSQL_DATABASE: $MYSQL_DATABASE
       RAILS_ENV: development  # Railsの環境変数を設定
+      BUNDLE_DEPLOYMENT: "0"
     volumes:
       - "./api:/$WORKDIR"
     depends_on:

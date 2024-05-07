@@ -13,7 +13,7 @@ ENV RAILS_ENV="production" \
     BUNDLE_WITHOUT="development"
 
 # Create bundle directory and set permissions
-RUN mkdir -p /usr/local/bundle && chown -R rails:rails /usr/local/bundle
+# RUN mkdir -p /usr/local/bundle && chown -R rails:rails /usr/local/bundle
 
 # Throw-away build stage to reduce size of final image
 FROM base as build

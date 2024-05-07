@@ -28,3 +28,14 @@ services:
     ports:
       - "$API_PORT:3000"
     command: bash -c "bundle config unset frozen && bundle install && rm -rf /usr/local/bundle/bundler/gems/*/.git && bundle exec bootsnap precompile --gemfile && rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+
+  front:
+    build:
+      context: front/
+      dockerfile: Dockerfile
+    container_name: web
+    volumes:
+      - ./front:/app
+    command: yarn dev
+    ports:
+      - "4001:3000"

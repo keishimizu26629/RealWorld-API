@@ -15,7 +15,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ja">
+      <head>
+        <link rel="stylesheet" href="//demo.productionready.io/main.css" />
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );

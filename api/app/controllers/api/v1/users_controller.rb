@@ -13,6 +13,10 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def get_user
+    token = requests.headers['Authorization'].split(' ').last
+  end
+
   private
 
   def user_params

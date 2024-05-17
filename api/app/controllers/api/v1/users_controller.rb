@@ -15,6 +15,23 @@ class Api::V1::UsersController < ApplicationController
 
   def get_user
     token = requests.headers['Authorization'].split(' ').last
+    begin
+      payload = JWT.decode(token, Rails.application.secets.secret_key_base, true, algorithm: 'HS256')
+      user_id = payload.first['user_id']
+      user = User.find(user_id)
+
+      render json: {
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email
+        }
+      }, status: :ok
+    rescue JWT::DecodeError, ActiveRecord::RecordNotFound => e
+      render json: {
+        error: 'Invalid token or user not found'
+      }, status: :unauthorized
+    end
   end
 
   private

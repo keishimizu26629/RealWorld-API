@@ -1,41 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import axios from 'axios';
+import { useLoginViewModel } from './useLoginViewModel';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
-  const [error, setError] = useState('');
-  const [email, setEmail] = useState('alice@example.com');
-  const [password, setPassword] = useState('password123');
-  const router = useRouter();
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    console.log(email);
-    console.log(password);
-    try {
-      const response = await axios.post('http://localhost:3000/api/v1/login', {
-        email,
-        password,
-      });
-      const { token } = response.data;
-      console.log(token);
-
-      if (response.status === 200) {
-        const { token } = response.data;
-        localStorage.setItem('token', token);
-        router.push('/article');
-      } else {
-        setError('Invalid email or password');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setError('An error occurred');
-    }
-  };
+  const {
+    error,
+    email,
+    password,
+    setEmail,
+    setPassword,
+    handleSubmit,
+  } = useLoginViewModel();
 
   return (
     <div className="auth-page">

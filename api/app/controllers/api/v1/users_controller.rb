@@ -14,23 +14,22 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def get_user
-    token = requests.headers['Authorization'].split(' ').last
+    auth_header = request.headers['Authorization']
+    if auth_header.nil?
+      render json: { error: 'Authorization header not found' }, status: :unauthorized and return
+    end
+
+    token = auth_header.split(' ').last
     begin
-      payload = JWT.decode(token, Rails.application.secets.secret_key_base, true, algorithm: 'HS256')
+      payload = JWT.decode(token, Rails.application.secrets.secret_key_base, true, algorithm: 'HS256')
       user_id = payload.first['user_id']
       user = User.find(user_id)
-
-      render json: {
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email
-        }
-      }, status: :ok
-    rescue JWT::DecodeError, ActiveRecord::RecordNotFound => e
-      render json: {
-        error: 'Invalid token or user not found'
-      }, status: :unauthorized
+      render json: { user: { id: user.id, username: user.username, email: user.email } }, status: :ok
+    rescue JWT::DecodeError => e
+      Rails.logger.error "JWT Decode Error: #{e.message}"
+      render json: { error: 'Invalid token' }, status: :unauthorized
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: 'User not found' }, status: :unauthorized
     end
   end
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../contexts/AuthContext';
-import { User } from '../../domain/entities/user';
+import { useAuth } from '../../contexts/ServiceContext';
+import { AuthUser } from '../../domain/entities/user';
 
 export const useLoginViewModel = () => {
   const [error, setError] = useState('');
@@ -14,7 +14,7 @@ export const useLoginViewModel = () => {
     event.preventDefault();
 
     try {
-      const user: User = { email, password };
+      const user: AuthUser = { email, password };
       const token = await auth.login(user);
       if (token) {
         localStorage.setItem('token', token);

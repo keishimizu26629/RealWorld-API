@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { AuthProvider } from '../contexts/AuthContext';
+import { ServiceProvider } from '../contexts/ServiceContext';
 import { useHomeViewModel } from './homeViewModel';
 
 export default function Home() {
@@ -15,9 +15,9 @@ export default function Home() {
   }
 
   return (
-    <AuthProvider>
+    <ServiceProvider>
       <>
       </>
-    </AuthProvider>
+    </ServiceProvider>
   );
 }

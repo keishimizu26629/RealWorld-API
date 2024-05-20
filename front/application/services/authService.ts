@@ -1,16 +1,15 @@
-import { AuthRepository } from '../../types/authTypes';
-import { User } from '../../domain/entities/user';
+import { AuthUser } from '../../domain/entities/user';
 
 export class AuthService {
-  private authRepository: AuthRepository;
+  private loginFn: any;
 
-  constructor(authRepository: AuthRepository) {
-    this.authRepository = authRepository;
+  constructor(loginFn: any) {
+    this.loginFn = loginFn;
   }
 
-  async login(user: User): Promise<string> {
+  async login(user: AuthUser): Promise<string> {
     const { email, password } = user;
-    const data = await this.authRepository.login(email, password);
+    const data = await this.loginFn(email, password);
     return data.token;
   }
 }

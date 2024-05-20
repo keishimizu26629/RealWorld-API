@@ -1,28 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useHeaderViewModel } from './headerViewModel';
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showLogoutButton, setShowLogoutButton] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    setIsLoggedIn(false);
-    setShowLogoutButton(false);
-    window.location.href = '/';
-  };
-
-  const toggleLogoutButton = () => {
-    setShowLogoutButton(!showLogoutButton);
-  };
+  const { isLoggedIn, showLogoutButton, handleLogout, toggleLogoutButton } = useHeaderViewModel();
 
   return (
     <nav className="navbar navbar-light">
@@ -52,7 +34,7 @@ export default function Header() {
           ) : (
             <>
               <li className="nav-item">
-                <Link href="/new-story" className="nav-link">
+                <Link href="/article/new" className="nav-link">
                   <div className="am b bm ah aj by bz n o ca cb">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="Write">
                       {/* SVG path */}

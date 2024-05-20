@@ -1,13 +1,12 @@
-import { getUserData } from '../../infrastructure/repositories/userRepository';
+export class UserService {
+  private getUserDataFn: any;
 
-export const fetchUserData = async (token: string) => {
-  if (token) {
-    try {
-      const user = await getUserData(token);
-      return user;
-    } catch (error) {
-      throw error;
-    }
+  constructor(getUserDataFn: any) {
+    this.getUserDataFn = getUserDataFn;
   }
-  return null;
+
+  async getUserData(token: string): Promise<any> {
+    const data = await this.getUserDataFn(token);
+    return data;
+  }
 }

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useArticleService } from '../../../contexts/ServiceContext';
 import { Article } from '../../../domain/entities/article';
 
@@ -7,6 +7,7 @@ export const useArticleViewModel = () => {
   const [article, setArticle] = useState<Article | null>(null);
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
+  const router = useRouter();
   const articleService = useArticleService();
 
   useEffect(() => {
@@ -26,8 +27,22 @@ export const useArticleViewModel = () => {
     }
   };
 
+  const deleteArticle = async () => {
+    const id = params.id;
+    console.log(id);
+    if (id) {
+      try {
+        await articleService.deleteArticle(Number(id));
+        router.push('/article');
+      } catch (err) {
+        setError('Failed to delete article');
+      }
+    }
+  };
+
   return {
     article,
     error,
+    deleteArticle,
   };
 };

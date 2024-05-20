@@ -53,8 +53,12 @@ export const getArticleById = async (id: number) => {
   });
 }
 
+export const updateArticleById = async () => {
+
+}
+
 export const deleteArticleById = async () => {
-  
+
 }
 
 export const mockRepository = {
@@ -62,5 +66,6 @@ export const mockRepository = {
   getUserData,
   postArticle,
   getArticleById,
+  updateArticleById,
   deleteArticleById,
 };

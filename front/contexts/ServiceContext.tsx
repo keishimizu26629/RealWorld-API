@@ -12,7 +12,12 @@ const repositories = isTest ? mockRepository : mainRepository;
 
 const authService = new AuthService(repositories.login);
 const userService = new UserService(repositories.getUserData);
-const articleService = new ArticleService(repositories.postArticle, repositories.getArticleById, repositories.deleteArticleById);
+const articleService = new ArticleService(
+  repositories.postArticle,
+  repositories.getArticleById,
+  repositories.updateArticleById,
+  repositories.deleteArticleById,
+  );
 
 const services = {
   authService,

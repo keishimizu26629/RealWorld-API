@@ -34,8 +34,16 @@ export const getArticleById = async (id: number) => {
   return response.data;
 }
 
+export const updateArticleById = async (id: number, title: string, content: string) => {
+  const response = await axios.put(`http://localhost:3000/api/v1/articles/${id}`, {
+    title,
+    content,
+  });
+  return response.data;
+}
+
 export const deleteArticleById = async (id: number) => {
-  await axios.delete(`http://localhost:4001/article/${id}`);
+  await axios.delete(`http://localhost:3000/api/v1/articles/${id}`);
 }
 
 export const mainRepository = {
@@ -43,5 +51,6 @@ export const mainRepository = {
   getUserData,
   postArticle,
   getArticleById,
+  updateArticleById,
   deleteArticleById,
 };

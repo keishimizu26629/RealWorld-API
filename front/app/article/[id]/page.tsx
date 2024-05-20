@@ -1,9 +1,11 @@
 'use client';
 
 import { useArticleViewModel } from './articleViewModel';
+import { useRouter } from 'next/navigation';
 
 export default function ArticlePage() {
-  const { article, error } = useArticleViewModel();
+  const { article, error, deleteArticle } = useArticleViewModel();
+  const router = useRouter();
 
   if (error) {
     return <div>{error}</div>;
@@ -14,6 +16,14 @@ export default function ArticlePage() {
   }
 
   const createdAt = article.created_at ? new Date(article.created_at).toLocaleDateString() : 'N/A';
+
+  const handleEdit = () => {
+    router.push(`/article/edit/${article.id}`);
+  };
+
+  const handleDelete = async () => {
+    await deleteArticle();
+  };
 
   return (
     <div className="article-page">
@@ -35,10 +45,10 @@ export default function ArticlePage() {
               <i className="ion-heart"></i>
               &nbsp; Favorite Post <span className="counter">(29)</span>
             </button>
-            <button className="btn btn-sm btn-outline-secondary">
+            <button className="btn btn-sm btn-outline-secondary" onClick={handleEdit}>
               <i className="ion-edit"></i> Edit Article
             </button>
-            <button className="btn btn-sm btn-outline-danger">
+            <button className="btn btn-sm btn-outline-danger" onClick={handleDelete}>
               <i className="ion-trash-a"></i> Delete Article
             </button>
           </div>
@@ -71,10 +81,10 @@ export default function ArticlePage() {
               <i className="ion-heart"></i>
               &nbsp; Favorite Article <span className="counter">(29)</span>
             </button>
-            <button className="btn btn-sm btn-outline-secondary">
+            <button className="btn btn-sm btn-outline-secondary" onClick={handleEdit}>
               <i className="ion-edit"></i> Edit Article
             </button>
-            <button className="btn btn-sm btn-outline-danger">
+            <button className="btn btn-sm btn-outline-danger" onClick={handleDelete}>
               <i className="ion-trash-a"></i> Delete Article
             </button>
           </div>
